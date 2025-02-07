@@ -298,6 +298,21 @@ public class DrawMovementAura : MonoBehaviour
         outputWriter.Close();
     }
 
+    // Since our convex hull generator shortenes the list available points, we also need to shorten the list that we pass for coloring the mesh
+    public void ShortLists(List<float> original, List<float> shortened)
+    {
+        shortened.Clear();
+        foreach (var shortenedPoint in verts)
+        {
+            int index = pointList.IndexOf(shortenedPoint);
+
+            if (index >= 0)
+            {
+                shortened.Add(original[index]);
+            }
+        }
+    }
+
     public float CalcJointDifference(float[] referencePoint)
     {
         float[] currJointAngles = GetJointAngles();
@@ -326,21 +341,6 @@ public class DrawMovementAura : MonoBehaviour
         }
 
         return output;
-    }
-
-    // Since our convex hull generator shortenes the list available points, we also need to shorten the list that we pass for coloring the mesh
-    public void ShortLists(List<float> original, List<float> shortened)
-    {
-        shortened.Clear();
-        foreach (var shortenedPoint in verts)
-        {
-            int index = pointList.IndexOf(shortenedPoint);
-
-            if (index >= 0)
-            {
-                shortened.Add(original[index]);
-            }
-        }
     }
 
 // Adds a custom button to the inspector window to start the hull generation
